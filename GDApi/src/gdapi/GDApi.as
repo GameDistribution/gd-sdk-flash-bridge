@@ -7,8 +7,7 @@ package gdapi
 	import flash.net.SharedObject;
 	import flash.system.Capabilities;
 	import flash.system.Security;
-	
-	import gd.GDEvent;
+
 	
 	[SWF(width='540',height='440',frameRate='30',backgroundColor='0x000000')]
 	public dynamic class GDApi extends Sprite
@@ -30,8 +29,7 @@ package gdapi
 		internal static var _Enabled:Boolean = true;
 		internal static var _WebRef:String = "";
 		internal static var _isLocal:Boolean=false;
-		internal static var _ApiVersion:String = "v232";
-		internal static var _ServerVersion:String = "v1";
+		internal static var _ApiVersion:String = "v232";		internal static var _ServerVersion:String = "v1";
 		internal static var _Stage:Stage;
 		
 		/*
@@ -125,8 +123,7 @@ package gdapi
 				
 		public function Log(args:Object):void 
 		{			
-			GDUtils.DebugLog("Log:"+args);
-			
+			GDUtils.DebugLog("Log:"+args);			
 			/* Set Init Values */
 			_SID = SessionId.getId();
 			_GID = args.gid;
@@ -185,6 +182,7 @@ package gdapi
 			GDBlocker.addEventListener(gdapi.GDEvent.SITE_NOTALLOWED,onSiteBlocked);
 			GDBlocker.CheckBlocker();
 		
+			
 			_GDAnalytics = new GDAnalytics();
 			_GDAnalytics.jsInjectAnalytics(args.gid);
 			_GDAnalytics.jsSendEventGoogle('API','Init')
@@ -194,47 +192,9 @@ package gdapi
 			_GDBanner.addEventListener(gdapi.GDEvent.BANNER_CLOSED,onAdClosed)
 			_GDBanner.addEventListener(gdapi.GDEvent.BANNER_RECEIVED,onAdReceived)
 			_GDBanner.init({_key:"Preroll",_type:"interstitial"});			
-			
-			// Is there internet acceess?
-			if (Security.sandboxType != "localWithFile") 
-			{
-					/*
-					* Init Channel
-					*/
-					GDChannel.Init();
-					
-					// Log Visit
-					Visit();
-					GDUtils.SaveCookie("visit",GDUtils.GetCookie("visit")+1);
-				
-			} else {				
-				GDUtils.DebugLog("There isn't internet access of the file. Please give access to your file from Flash Settings. GDApi cannot access to the GDSserver and will not work.");						
-			}
-			return;
-			
+						
 		}
 		
-		internal static function Visit():void
-		{
-			if(!_Enabled){
-				GDUtils.DebugLog(Debug_InitWarning)
-				return;
-			}
-			
-			var sendObj:Object = new Object();
-			sendObj.action = "visit";
-			sendObj.value = GDUtils.GetCookie("visit");
-			sendObj.state = GDUtils.GetCookie("state");
-			GDLogRequest.PushLog(sendObj);									
-		}
-		
-		internal static function IncPlay():int
-		{
-			var play:int = GDUtils.GetCookie("play");
-			play++;
-			GDUtils.SaveCookie("play",play);
-			return play;
-		}
 		
 		/**
 		 * Show Banner. 
@@ -251,11 +211,8 @@ package gdapi
 				return;
 			}
 			
-			if (args.test) {
-				_GDBanner.ShowTestBanner();
-			} else {
-				_GDBanner.ReShowBanner(args);	
-			}
+			_GDBanner.ShowAd(args);	
+
 		}
 		/**
 		 * Close Banner. 
@@ -289,10 +246,6 @@ package gdapi
 				GDUtils.DebugLog(Debug_InitWarning)
 				return;
 			}
-			var sendObj:Object = new Object();
-			sendObj.action = "play";
-			sendObj.value = IncPlay();
-			GDLogRequest.PushLog(sendObj);		
 		}
 		
 		/**
@@ -316,22 +269,9 @@ package gdapi
 				if (customValue==0) {					
 					customValue = 1;
 					GDUtils.SaveCookie(_key,customValue);
-				} 
-				
-				var sendObj:Object = new Object();
-				sendObj.action = "custom";
-				sendObj.value = new Array({key:_key, value:customValue});
-				GDLogRequest.PushLog(sendObj);						
+				} 					
 			}
 		}
-		
-		internal static function Ping():Object
-		{
-			var sendObj:Object = new Object();
-			sendObj.action = "ping";
-			sendObj.value = "ping";
-			return sendObj;
-		}	
 	
 		/**
 		 * Sets the API to use SSL-only for all communication
@@ -353,10 +293,9 @@ package gdapi
 			dispatchEvent(e);
 		}
 		
-		protected function onAdReceived(e:gdapi.GDEvent):void
+		protected function onAdReceived(e:GDEvent):void
 		{
-			dispatchEvent(new gd.GDEvent(gd.GDEvent.BANNER_RECEIVED,e.data));
-			//_GDAnalytics.jsSendEventGoogle("Ad","Loaded");
+			dispatchEvent(new GDEvent(GDEvent.BANNER_RECEIVED,e.data));
 		}
 		
 		protected function onAdClosed(e:Event):void
