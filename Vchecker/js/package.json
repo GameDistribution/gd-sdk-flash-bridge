@@ -1,0 +1,12 @@
+{
+  "name": "Html5SDKLoader",
+  "version": "0.0.1",
+  "author": "GameDistribution",
+  "contributors": "Emre Demir",
+  "description" : "Bridge between flash sdk and html5 sdk.",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-uglify": "^3.0.1",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}
