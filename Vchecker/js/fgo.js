@@ -7,7 +7,7 @@
 
   function init() {
 
-  // JQUERY
+    // JQUERY
     if (typeof $ === UNDEFINED) {
       loadScript('//code.jquery.com/jquery-2.1.4.min.js', function() {
         init();
@@ -69,38 +69,38 @@
       gameId: _gameId,
       userId: _userId,
       advertisementSettings: {
-          containerId: ''+_self._container.id,
-          autoPlay: true
+        containerId: ''+_self._container.id,
+        autoPlay: true
       },
       onEvent: function(event) {
-          switch (event.name) {
-            case 'STARTED':
-              jsOnAdsStarted();
-              break;
-            case 'LOADED':
-              jsOnAdsLoaded();
-              break;
-            case 'USER_CLOSE':
-              jsOnAdsClosed();
-              break;
-            case 'AD_ERROR':
-              jsOnAdsError();
-              break;
-            case 'API_READY':
-              console.log("Api is ready");
-              break;
-          }
+        switch (event.name) {
+          case 'STARTED':
+            jsOnAdsStarted();
+            break;
+          case 'LOADED':
+            jsOnAdsLoaded();
+            break;
+          case 'USER_CLOSE':
+            jsOnAdsClosed();
+            break;
+          case 'AD_ERROR':
+            jsOnAdsError();
+            break;
+          case 'API_READY':
+            console.log("Api is ready");
+            break;
+        }
       }
     };
 
-     // HTML5 SDK
+    // HTML5 SDK
     (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = '//html5.api.gamedistribution.com/main.js';
-        fjs.parentNode.insertBefore(js, fjs);
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = '//html5.api.gamedistribution.com/main.js';
+      fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'gamedistribution-jssdk'));
 
 
@@ -113,7 +113,7 @@
     }
 
     function requestAds() {
-      gdApi.showBanner(); 
+      gdApi.showBanner();
     }
 
     function jsOnAdsStarted() {
@@ -134,7 +134,7 @@
       // _self._container.style['display'] = 'none';
       _game.jsOnAdsError();
     }
-    
+
     return {
       requestAds: requestAds
     };
