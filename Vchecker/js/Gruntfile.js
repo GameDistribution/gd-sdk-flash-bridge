@@ -12,7 +12,7 @@ module.exports = function(grunt) {
       },
       build: {
         src: 'src/fgo.js',
-        dest: 'src/fgo.min.js'
+        dest: 'dist/fgo.min.js'
       }
     },
 
@@ -34,10 +34,10 @@ module.exports = function(grunt) {
       main: {
         expand: true,
         cwd: 'src',
-        src: '**',
+        src: 'src/**',
         dest: 'dist/',
         flatten: true,
-        filter: 'isFile',
+        filter: 'isFile'
       }
     }
 
@@ -46,5 +46,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
 
-  grunt.registerTask('watcher', ['watch']);
+  grunt.registerTask('default', ['watch']);
 }
