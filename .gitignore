@@ -4,6 +4,8 @@ node_modules/
 bin-release/
 [Oo]bj/
 [Bb]in/
+src/*.js
+src/*.map
 
 # Other files and folders
 .settings/
