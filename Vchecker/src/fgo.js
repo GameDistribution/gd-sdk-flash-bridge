@@ -10,14 +10,14 @@
         const objects = document.getElementsByTagName('object');
         const embeds = document.getElementsByTagName('embed');
 
-        for (var i = 0; i < objects.length; i++) {
-            var temp = objects[i];
+        for (let i = 0; i < objects.length; i++) {
+            let temp = objects[i];
             if (typeof(temp.jsGDO) !== UNDEFINED) {
                 fgo.master = new FgoAd(temp);
             }
         }
-        for (var i = 0; i < embeds.length; i++) {
-            var tmp = embeds[i];
+        for (let i = 0; i < embeds.length; i++) {
+            let tmp = embeds[i];
             if (typeof(tmp.jsGDO) !== UNDEFINED) {
                 fgo.master = new FgoAd(tmp);
             }
@@ -72,8 +72,8 @@
             onEvent: function onEvent(event) {
                 switch (event.name) {
                     case 'API_GAME_PAUSE':
-                        jsOnAdsStarted();
-                        jsOnAdsLoaded();
+                      jsOnAdsLoaded();
+                      jsOnAdsStarted();
                         break;
                     case 'API_GAME_START':
                         jsOnAdsClosed();
