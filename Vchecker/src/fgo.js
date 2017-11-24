@@ -68,7 +68,6 @@
             userId: _userId,
             advertisementSettings: {
                 container: '' + _self._container.id,
-                autoPlay: true,
             },
             onEvent: function onEvent(event) {
                 switch (event.name) {
