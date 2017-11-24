@@ -52,6 +52,11 @@
         _self._container.style['height'] = height() + 'px';
         _self._container.style['top'] = position.top + 'px';
         _self._container.style['left'] = position.left + 'px';
+
+        // Hide the advertisement container initially. We do not use
+        // display: none as this causes issues with requesting offset dimensions.
+        _self._container.style['transform'] = 'translate(-9999px)';
+
         document.body.appendChild(_self._container);
 
         window.addEventListener('resize', function() {
@@ -67,6 +72,7 @@
             gameId: _gameId.replace(/-/g, ''),
             userId: _userId,
             advertisementSettings: {
+                flash: true, // todo: until we can enable preroll for flash.
                 container: '' + _self._container.id,
             },
             onEvent: function onEvent(event) {
