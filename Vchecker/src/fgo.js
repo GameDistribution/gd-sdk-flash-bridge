@@ -93,8 +93,8 @@
             if (d.getElementById(id)) return;
             js = d.createElement(s);
             js.id = id;
-            // js.src = 'https://html5.api.gamedistribution.com/main.min.js';
-            js.src = 'http://localhost:3000/lib/main.js';
+            js.src = 'https://html5.api.gamedistribution.com/main.min.js';
+            // js.src = 'http://localhost:3000/lib/main.js';
             fjs.parentNode.insertBefore(js, fjs);
         })(document, 'script', 'gamedistribution-jssdk');
 
