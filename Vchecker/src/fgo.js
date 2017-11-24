@@ -71,8 +71,8 @@
         window.GD_OPTIONS = {
             gameId: _gameId.replace(/-/g, ''),
             userId: _userId,
+            flash: true, // todo: until we can enable preroll for flash.
             advertisementSettings: {
-                flash: true, // todo: until we can enable preroll for flash.
                 container: '' + _self._container.id,
             },
             onEvent: function onEvent(event) {
