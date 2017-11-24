@@ -3,7 +3,7 @@
     const UNDEFINED = 'undefined';
     const fgo = window['fgo'];
 
-    if (_typeof(fgo.master) !== UNDEFINED) return;
+    if (typeof fgo.master !== UNDEFINED) return;
 
     function init() {
 
@@ -12,18 +12,18 @@
 
         for (var i = 0; i < objects.length; i++) {
             var temp = objects[i];
-            if (_typeof(temp.jsGDO) !== UNDEFINED) {
+            if (typeof(temp.jsGDO) !== UNDEFINED) {
                 fgo.master = new FgoAd(temp);
             }
         }
         for (var i = 0; i < embeds.length; i++) {
             var tmp = embeds[i];
-            if (_typeof(tmp.jsGDO) !== UNDEFINED) {
+            if (typeof(tmp.jsGDO) !== UNDEFINED) {
                 fgo.master = new FgoAd(tmp);
             }
         }
 
-        if (_typeof(fgo.master) === UNDEFINED) return;
+        if (typeof(fgo.master) === UNDEFINED) return;
 
         window.requestAds = fgo.master.requestAds;
         window.jsShowBanner = fgo.master.requestAds;
