@@ -1,19 +1,17 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-const _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+(function (window) {
 
-(function(window) {
-
-    const UNDEFINED = 'undefined';
-    const fgo = window['fgo'];
+    var UNDEFINED = 'undefined';
+    var fgo = window['fgo'];
 
     if (_typeof(fgo.master) !== UNDEFINED) return;
 
     function init() {
 
-        const objects = document.getElementsByTagName('object');
-        const embeds = document.getElementsByTagName('embed');
+        var objects = document.getElementsByTagName('object');
+        var embeds = document.getElementsByTagName('embed');
 
         for (var i = 0; i < objects.length; i++) {
             var temp = objects[i];
@@ -37,19 +35,16 @@ const _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symb
     init();
 
     function FgoAd(game) {
-        const _self = this;
-        const _game = game;
-        const _userId = fgo.q[0][1];
+        var _self = this;
+        var _game = game;
+        var _userId = fgo.q[0][1];
 
-        let _gameId = fgo.q[0][0];
+        var _gameId = fgo.q[0][0];
         if (_gameId.length === 32) {
-            _gameId = _gameId.substr(0, 8) + '-' +
-                _gameId.substring(8, 12) + '-' + _gameId.substring(12, 16) +
-                '-' + _gameId.substring(16, 20) + '-' +
-                _gameId.substring(20, 32);
+            _gameId = _gameId.substr(0, 8) + '-' + _gameId.substring(8, 12) + '-' + _gameId.substring(12, 16) + '-' + _gameId.substring(16, 20) + '-' + _gameId.substring(20, 32);
         }
 
-        const position = getAbsoluteBoundingRect(_game);
+        var position = getAbsoluteBoundingRect(_game);
         _self._container = document.createElement('div');
         _self._container.id = 'adContainer_' + _gameId;
         _self._container.style.position = 'absolute';
@@ -59,8 +54,8 @@ const _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symb
         _self._container.style['left'] = position.left + 'px';
         document.body.appendChild(_self._container);
 
-        window.addEventListener('resize', function() {
-            const position = getAbsoluteBoundingRect(_game);
+        window.addEventListener('resize', function () {
+            var position = getAbsoluteBoundingRect(_game);
             _self._container.style['width'] = width() + 'px';
             _self._container.style['height'] = height() + 'px';
             _self._container.style['top'] = position.top + 'px';
@@ -73,31 +68,26 @@ const _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symb
             userId: _userId,
             advertisementSettings: {
                 container: '' + _self._container.id,
-                autoPlay: true,
+                autoPlay: true
             },
             onEvent: function onEvent(event) {
                 switch (event.name) {
-                    case 'STARTED':
+                    case 'API_GAME_PAUSE':
                         jsOnAdsStarted();
-                        break;
-                    case 'LOADED':
                         jsOnAdsLoaded();
                         break;
-                    case 'USER_CLOSE':
+                    case 'API_GAME_START':
                         jsOnAdsClosed();
                         break;
                     case 'AD_ERROR':
                         jsOnAdsError();
                         break;
-                    case 'API_READY':
-                        console.log('Api is ready');
-                        break;
                 }
-            },
+            }
         };
 
         // HTML5 SDK
-        (function(d, s, id) {
+        (function (d, s, id) {
             var js,
                 fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
@@ -140,29 +130,23 @@ const _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symb
         }
 
         return {
-            requestAds: requestAds,
+            requestAds: requestAds
         };
     }
 
     function getAbsoluteBoundingRect(el) {
-        const doc = document;
-        const win = window;
-        const body = doc.body;
+        var doc = document;
+        var win = window;
+        var body = doc.body;
 
         // pageXOffset and pageYOffset work everywhere except IE <9.
-        let offsetX = win.pageXOffset !== undefined
-            ? win.pageXOffset
-            : (doc.documentElement || body.parentNode ||
-                body).scrollLeft;
-        let offsetY = win.pageYOffset !== undefined
-            ? win.pageYOffset
-            : (doc.documentElement || body.parentNode ||
-                body).scrollTop;
+        var offsetX = win.pageXOffset !== undefined ? win.pageXOffset : (doc.documentElement || body.parentNode || body).scrollLeft;
+        var offsetY = win.pageYOffset !== undefined ? win.pageYOffset : (doc.documentElement || body.parentNode || body).scrollTop;
 
-        const rect = el.getBoundingClientRect();
+        var rect = el.getBoundingClientRect();
 
         if (el !== body) {
-            let parent = el.parentNode;
+            var parent = el.parentNode;
 
             // The element's rect will be affected by the scroll
             // positions of *all* of its scrollable parents, not just
@@ -181,7 +165,7 @@ const _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symb
             left: rect.left + offsetX,
             right: rect.right + offsetX,
             top: rect.top + offsetY,
-            width: rect.width,
+            width: rect.width
         };
     }
 })(window);
