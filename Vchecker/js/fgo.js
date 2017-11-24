@@ -67,6 +67,7 @@ const _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symb
             _self._container.style['left'] = position.left + 'px';
         });
 
+        // HTML5 SDK settings
         window.GD_OPTIONS = {
             gameId: _gameId.replace(/-/g, ''),
             userId: _userId,
