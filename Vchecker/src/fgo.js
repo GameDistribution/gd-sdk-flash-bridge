@@ -71,15 +71,21 @@
         window.GD_OPTIONS = {
             gameId: _gameId.replace(/-/g, ''),
             userId: _userId,
-            flash: true, // todo: until we can enable preroll for flash.
             advertisementSettings: {
+                autoplay: true,
                 container: '' + _self._container.id,
+                // We have to set a 2 minute delay on the pre-roll.
+                // Reason for this is that otherwise pre-rolls are running
+                // right after the pre-roll of the publisher website it self.
+                // This condition "can" be removed when VGD-144 is released and
+                // all banner settings are properly set for these games.
+                delay: 120000,
             },
             onEvent: function onEvent(event) {
                 switch (event.name) {
                     case 'API_GAME_PAUSE':
-                      jsOnAdsLoaded();
-                      jsOnAdsStarted();
+                        jsOnAdsLoaded();
+                        jsOnAdsStarted();
                         break;
                     case 'API_GAME_START':
                         jsOnAdsClosed();
@@ -98,8 +104,8 @@
             if (d.getElementById(id)) return;
             js = d.createElement(s);
             js.id = id;
-            js.src = 'https://html5.api.gamedistribution.com/main.min.js';
-            // js.src = 'http://localhost:3000/lib/main.js';
+            // js.src = 'https://html5.api.gamedistribution.com/main.min.js';
+            js.src = 'http://localhost:3000/lib/main.js';
             fjs.parentNode.insertBefore(js, fjs);
         })(document, 'script', 'gamedistribution-jssdk');
 
