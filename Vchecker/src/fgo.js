@@ -83,14 +83,14 @@
             },
             onEvent: function onEvent(event) {
                 switch (event.name) {
-                    case 'API_GAME_PAUSE':
+                    case 'SDK_GAME_PAUSE':
                         jsOnAdsLoaded();
                         jsOnAdsStarted();
                         break;
-                    case 'API_GAME_START':
+                    case 'SDK_GAME_START':
                         jsOnAdsClosed();
                         break;
-                    case 'AD_ERROR':
+                    case 'SDK_ERROR':
                         jsOnAdsError();
                         break;
                 }
@@ -104,8 +104,8 @@
             if (d.getElementById(id)) return;
             js = d.createElement(s);
             js.id = id;
-            // js.src = 'https://html5.api.gamedistribution.com/main.min.js';
-            js.src = 'http://localhost:3000/lib/main.js';
+            js.src = 'https://html5.api.gamedistribution.com/main.min.js';
+            // js.src = 'http://localhost:3000/lib/main.js';
             fjs.parentNode.insertBefore(js, fjs);
         })(document, 'script', 'gamedistribution-jssdk');
 
