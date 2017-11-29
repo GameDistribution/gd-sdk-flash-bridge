@@ -1,6 +1,6 @@
 {
-    "name": "Html5SDKLoader",
-    "version": "0.0.1",
+    "name": "FlashSDKLoader",
+    "version": "1.0.0",
     "author": "Gamedistribution.com",
     "description": "Bridge between flash sdk and html5 sdk.",
     "license": "MIT",
