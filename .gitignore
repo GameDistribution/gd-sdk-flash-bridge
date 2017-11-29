@@ -1,12 +1,16 @@
 # Build and Release Folders
-bin/
 bin-debug/
+node_modules/
 bin-release/
-[Oo]bj/ # FlashDevelop obj
-[Bb]in/ # FlashDevelop bin
+[Oo]bj/
+[Bb]in/
+fgo.js
+fgo.min.js
+fgo.min.js.map
 
 # Other files and folders
 .settings/
+.idea/
 
 # Executables
 *.swf
