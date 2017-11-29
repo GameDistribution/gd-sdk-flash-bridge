@@ -9,7 +9,7 @@ This is the documentation of the "Flash SDK Loader" project. This SDK is used to
 
 ## Repository
 The SDK is maintained on a public github repository.
-<a href="https://github.com/GameDistribution/FlashApi" target="_blank">https://github.com/GameDistribution/FlashApi</a>
+<a href="https://github.com/gamedistribution/FlashApi" target="_blank">https://github.com/gamedistribution/FlashApi</a>
 
 ## Installation
 Install the following programs:
@@ -32,8 +32,41 @@ grunt build
 ```
 
 ## Development
-Checkout the HTML5 SDK repository. Build and run it using Grunt. BrowserSync should start running the HTML5 SDK through http://localhost:3000. Use this URL within this project, instead of loading the CDN hosted SDK.
+Checkout the <a href="https://github.com/gamedistribution/GD-HTML5" target="_blank">HTML5 SDK</a> repository. Build and run it using Grunt. BrowserSync should start running the HTML5 SDK through http://localhost:3000. Use this URL within this project, instead of loading the CDN hosted SDK.
 
+### Virtual hosts
+Setup the following virtual hosts, as we want to serve these files from our local environment.
+```
+<VirtualHost *:80>
+    ServerName vcheck.submityourgame.com
+    ServerAlias vcheck.submityourgame.com
+    DocumentRoot "/Users/arthurhulsman/Sites/FlashApi/Vchecker"
+
+        <Directory "/Users/arthurhulsman/Sites/FlashApi/Vchecker">
+            Options Indexes FollowSymLinks
+            AllowOverride All
+            Order allow,deny
+            Allow from all
+        </Directory>
+</VirtualHost>
+```
+```
+<VirtualHost *:80>
+    ServerName local.gamedistribution.com
+    ServerAlias local.gamedistribution.com
+    DocumentRoot "/Users/arthurhulsman/Sites/FlashApi/GDApi/bin-debug"
+
+        <Directory "/Users/arthurhulsman/Sites/FlashApi/GDApi/bin-debug">
+            Options Indexes FollowSymLinks
+            AllowOverride All
+            Order allow,deny
+            Allow from all
+        </Directory>
+</VirtualHost>
+```
+Make sure you add these domains to your environments `hosts` file.
+
+### Debugging
 Enable debugging by running this command from within your browsers' developer tool.
 ```
 tunnl.openConsole();
