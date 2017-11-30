@@ -40,9 +40,9 @@ Setup the following virtual hosts, as we want to serve these files from our loca
 <VirtualHost *:80>
     ServerName vcheck.submityourgame.com
     ServerAlias vcheck.submityourgame.com
-    DocumentRoot "/Users/arthurhulsman/Sites/FlashApi/Vchecker"
+    DocumentRoot "[PATH_TO_REPOSITORY]/Vchecker"
 
-        <Directory "/Users/arthurhulsman/Sites/FlashApi/Vchecker">
+        <Directory "[PATH_TO_REPOSITORY]/Vchecker">
             Options Indexes FollowSymLinks
             AllowOverride All
             Order allow,deny
@@ -54,9 +54,9 @@ Setup the following virtual hosts, as we want to serve these files from our loca
 <VirtualHost *:80>
     ServerName local.gamedistribution.com
     ServerAlias local.gamedistribution.com
-    DocumentRoot "/Users/arthurhulsman/Sites/FlashApi/GDApi/bin-debug"
+    DocumentRoot "[PATH_TO_REPOSITORY]/GDApi/bin-debug"
 
-        <Directory "/Users/arthurhulsman/Sites/FlashApi/GDApi/bin-debug">
+        <Directory "[PATH_TO_REPOSITORY]/GDApi/bin-debug">
             Options Indexes FollowSymLinks
             AllowOverride All
             Order allow,deny
