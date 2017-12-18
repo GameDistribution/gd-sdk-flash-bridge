@@ -38,7 +38,7 @@ module.exports = function(grunt) {
             },
             files: {
                 src: [
-                    'Vchecker/js/fgo.min.js',
+                    'lib/fgo.min.js',
                 ],
             },
         },
@@ -53,8 +53,8 @@ module.exports = function(grunt) {
                 transform: [['babelify', {presets: ['es2015']}]],
             },
             lib: {
-                src: 'Vchecker/src/**/*.js',
-                dest: 'Vchecker/js/fgo.js',
+                src: 'src/**/*.js',
+                dest: 'lib/fgo.js',
             },
         },
 
@@ -81,8 +81,8 @@ module.exports = function(grunt) {
                 warnings: false,
             },
             lib: {
-                src: 'Vchecker/js/fgo.js',
-                dest: 'Vchecker/js/fgo.min.js',
+                src: 'lib/fgo.js',
+                dest: 'lib/fgo.min.js',
             },
         },
 
@@ -95,7 +95,7 @@ module.exports = function(grunt) {
                 debounceDelay: 250,
             },
             scripts: {
-                files: ['Vchecker/src/*.js'],
+                files: ['src/**/*.js'],
                 tasks: ['uglify'],
             },
             grunt: {
@@ -198,7 +198,7 @@ module.exports = function(grunt) {
                         },
                     },
                     dist: {
-                        cwd: './Vchecker/js/*.js',
+                        cwd: './lib/',
                         src: ['**/*'],
                         dest: '',
                     },
