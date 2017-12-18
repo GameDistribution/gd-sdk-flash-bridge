@@ -198,7 +198,7 @@ module.exports = function(grunt) {
                         },
                     },
                     dist: {
-                        cwd: './lib/',
+                        cwd: './Vchecker/js/*.js',
                         src: ['**/*'],
                         dest: '',
                     },
