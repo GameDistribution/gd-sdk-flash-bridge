@@ -13,6 +13,28 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         /**
+         * Copies certain files over from the src folder to the build folder.
+         */
+        copy: {
+            lib: {
+                expand: true,
+                flatten: true,
+                cwd: './',
+                src: ['src/crossdomain.xml'],
+                dest: './lib/',
+            },
+        },
+
+        /**
+         * Cleans our build folder.
+         */
+        clean: {
+            lib: {
+                src: ['./lib'],
+            },
+        },
+
+        /**
          * A code block that will be added to our minified code files.
          * Gets the name and appVersion and other info from the above loaded 'package.json' file.
          * @example <%= banner.join("\\n") %>
@@ -106,6 +128,8 @@ module.exports = function(grunt) {
 
     // General tasks.
     grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-banner');
@@ -138,6 +162,7 @@ module.exports = function(grunt) {
         'Start BrowserSync and watch for any changes so we can do live updates while developing.',
         function() {
             const tasksArray = [
+                'copy',
                 'browserify',
                 'sourcemaps',
                 'uglify',
@@ -149,9 +174,11 @@ module.exports = function(grunt) {
         });
     grunt.registerTask('build', 'Build and optimize the js.', function() {
         const tasksArray = [
+            'clean',
             'browserify',
             'uglify',
             'usebanner',
+            'copy',
             'duration'
         ];
         grunt.task.run(tasksArray);
