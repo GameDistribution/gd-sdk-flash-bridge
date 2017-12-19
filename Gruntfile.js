@@ -1,9 +1,38 @@
+function atob(str) {
+    if (str) {
+        return new Buffer(str, 'base64').toString('binary');
+    }
+    return null;
+}
+
 module.exports = function(grunt) {
 
     const startTS = Date.now();
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
+        /**
+         * Copies certain files over from the src folder to the build folder.
+         */
+        copy: {
+            lib: {
+                expand: true,
+                flatten: true,
+                cwd: './',
+                src: ['src/crossdomain.xml'],
+                dest: './lib/',
+            },
+        },
+
+        /**
+         * Cleans our build folder.
+         */
+        clean: {
+            lib: {
+                src: ['./lib'],
+            },
+        },
 
         /**
          * A code block that will be added to our minified code files.
@@ -31,7 +60,7 @@ module.exports = function(grunt) {
             },
             files: {
                 src: [
-                    'Vchecker/js/fgo.min.js',
+                    'lib/fgo.min.js',
                 ],
             },
         },
@@ -43,11 +72,11 @@ module.exports = function(grunt) {
          */
         browserify: {
             options: {
-                transform: [['babelify', {presets: ['es2015']}]],
+                transform: [['babelify', {presets: ['env']}]],
             },
             lib: {
-                src: 'Vchecker/src/**/*.js',
-                dest: 'Vchecker/js/fgo.js',
+                src: 'src/**/*.js',
+                dest: 'lib/fgo.js',
             },
         },
 
@@ -74,8 +103,8 @@ module.exports = function(grunt) {
                 warnings: false,
             },
             lib: {
-                src: 'Vchecker/js/fgo.js',
-                dest: 'Vchecker/js/fgo.min.js',
+                src: 'lib/fgo.js',
+                dest: 'lib/fgo.min.js',
             },
         },
 
@@ -88,7 +117,7 @@ module.exports = function(grunt) {
                 debounceDelay: 250,
             },
             scripts: {
-                files: ['Vchecker/src/*.js'],
+                files: ['src/**/*.js'],
                 tasks: ['uglify'],
             },
             grunt: {
@@ -99,9 +128,12 @@ module.exports = function(grunt) {
 
     // General tasks.
     grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-banner');
+    grunt.loadNpmTasks('grunt-google-cloud');
 
     // Register tasks.
     grunt.registerTask('duration',
@@ -130,6 +162,7 @@ module.exports = function(grunt) {
         'Start BrowserSync and watch for any changes so we can do live updates while developing.',
         function() {
             const tasksArray = [
+                'copy',
                 'browserify',
                 'sourcemaps',
                 'uglify',
@@ -141,11 +174,85 @@ module.exports = function(grunt) {
         });
     grunt.registerTask('build', 'Build and optimize the js.', function() {
         const tasksArray = [
+            'clean',
             'browserify',
             'uglify',
             'usebanner',
+            'copy',
             'duration'
         ];
         grunt.task.run(tasksArray);
     });
+    grunt.registerTask('deploy',
+        'Upload the build files.',
+        function() {
+            const project = grunt.option('project'), // vooxe-gamedistribution
+                bucket = grunt.option('bucket'), // gd-sdk-html5
+                folderIn = grunt.option('in'), //
+                folderOut = grunt.option('out'); //
+
+            // The key is saved as a system parameter within Team City.
+            // The service account key of our google cloud account for uploading to
+            // storage is stringified and then encoded as base64 using btoa()
+            console.log(grunt.option('key'));
+            let keyObj = grunt.option('key');
+            let key = JSON.parse(atob(keyObj));
+            console.log(key);
+
+            if (project === undefined) {
+                grunt.fail.warn('Cannot upload without a project name');
+            }
+
+            if (bucket === undefined) {
+                grunt.fail.warn('OW DEAR GOD THEY ARE STEALING MAH BUCKET!');
+            }
+
+            if (key === undefined || key === null) {
+                grunt.fail.warn('Cannot upload without an auth key');
+            } else {
+                console.log('Key loaded...');
+            }
+
+            grunt.config.merge({
+                gcs: {
+                    options: {
+                        credentials: key,
+                        project: project,
+                        bucket: bucket,
+                        gzip: true,
+                        metadata: {
+                            'surrogate-key': 'gcs',
+                        },
+                    },
+                    dist: {
+                        cwd: './lib/',
+                        src: ['**/*'],
+                        dest: '',
+                    },
+                },
+            });
+
+            console.log('Project: ' + project);
+            console.log('Bucket: ' + bucket);
+
+            if (folderIn === undefined && folderOut === undefined) {
+                console.log('Deploying: ./lib/ to gs://' + bucket + '/');
+            } else {
+                if (folderIn !== undefined) {
+                    if (folderOut === undefined) {
+                        grunt.fail.warn(
+                            'No use in specifying "in" without "out"');
+                    }
+                    console.log('Deploying: ../' + folderIn + ' to gs://' +
+                        bucket + '/' + folderOut);
+                    grunt.config.set('gcs.dist', {
+                        cwd: '../' + folderIn, src: ['**/*'], dest: folderOut,
+                    });
+                } else if (folderOut !== undefined) {
+                    grunt.fail.warn('No use in specifying "out" without "in"');
+                }
+            }
+
+            grunt.task.run('gcs');
+        });
 };

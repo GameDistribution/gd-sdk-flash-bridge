@@ -4,9 +4,7 @@ node_modules/
 bin-release/
 [Oo]bj/
 [Bb]in/
-fgo.js
-fgo.min.js
-fgo.min.js.map
+lib/
 
 # Other files and folders
 .settings/
