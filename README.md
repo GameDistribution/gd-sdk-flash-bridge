@@ -4,8 +4,8 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/GameDistribution/TUNNL-SDK/blob/master/LICENSE)
 
 
-# Gamedistribution.com Flash SDK Loader
-This is the documentation of the "Flash SDK Loader" project. This SDK is used to inject the HTML5 SDK when using the Flash SDK.
+# Gamedistribution.com Flash SDK bridge
+This is the documentation of the "Flash SDK bridge" project. This SDK is used to inject the HTML5 SDK when using the Flash SDK.
 
 ## Repository
 The SDK is maintained on a public github repository.
