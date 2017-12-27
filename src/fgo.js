@@ -74,12 +74,6 @@
             advertisementSettings: {
                 autoplay: true,
                 container: '' + _self._container.id,
-                // We have to set a 2 minute delay on the pre-roll.
-                // Reason for this is that otherwise pre-rolls are running
-                // right after the pre-roll of the publisher website it self.
-                // This condition "can" be removed when VGD-144 is released and
-                // all banner settings are properly set for these games.
-                delay: 120000,
             },
             onEvent: function onEvent(event) {
                 switch (event.name) {
