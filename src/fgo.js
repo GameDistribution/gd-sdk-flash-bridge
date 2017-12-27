@@ -112,7 +112,7 @@
         }
 
         function requestAds() {
-            gdApi.showBanner();
+            gdsdk.showBanner();
         }
 
         function jsOnAdsStarted() {
