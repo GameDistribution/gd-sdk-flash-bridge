@@ -20,7 +20,7 @@ module.exports = function(grunt) {
                 expand: true,
                 flatten: false,
                 cwd: './src/',
-                src: ['crossdomain.xml', 'api/index.html'],
+                src: ['crossdomain.xml', 'api/index.html', 'gdapi.swf'],
                 dest: './lib/',
             },
         },
