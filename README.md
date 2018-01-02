@@ -1,7 +1,7 @@
 [![npm](https://img.shields.io/npm/v/npm.svg)](https://nodejs.org/)
-[![GitHub version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/GameDistribution/TUNNL-SDK/)
+[![GitHub version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/GameDistribution/gd-sdk-flash-bridge/)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](http://gruntjs.com/)
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/GameDistribution/TUNNL-SDK/blob/master/LICENSE)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/GameDistribution/gd-sdk-flash-bridge/blob/master/LICENSE)
 
 
 # Gamedistribution.com Flash SDK bridge
@@ -9,7 +9,7 @@ This is the documentation of the "Flash SDK bridge" project. This SDK is used to
 
 ## Repository
 The SDK is maintained on a public github repository.
-<a href="https://github.com/gamedistribution/FlashApi" target="_blank">https://github.com/gamedistribution/FlashApi</a>
+<a href="https://github.com/gamedistribution/gd-sdk-flash-bridge" target="_blank">https://github.com/gamedistribution/gd-sdk-flash-bridge</a>
 
 ## Installation
 Install the following programs:
@@ -35,33 +35,45 @@ grunt build
 Checkout the <a href="https://github.com/gamedistribution/GD-HTML5" target="_blank">HTML5 SDK</a> repository. Build and run it using Grunt. BrowserSync should start running the HTML5 SDK through http://localhost:3000. Use this URL within this project, instead of loading the CDN hosted SDK.
 
 ### Virtual hosts
-Setup the following virtual hosts, as we want to serve these files from our local environment.
+Setup the following virtual hosts and ssl keys, as we want to serve these files from our local environment through https.
+The new SDK location:
 ```
-<VirtualHost *:80>
-    ServerName vcheck.submityourgame.com
-    ServerAlias vcheck.submityourgame.com
-    DocumentRoot "[PATH_TO_REPOSITORY]/Vchecker"
+<VirtualHost *:443>
+    ServerName flash.api.gamedistribution.com
+    ServerAlias flash.api.gamedistribution.com
+    DocumentRoot "[PATH_TO_REPOSITORY]/lib"
 
-        <Directory "[PATH_TO_REPOSITORY]/Vchecker">
-            Options Indexes FollowSymLinks
-            AllowOverride All
-            Order allow,deny
-            Allow from all
-        </Directory>
+    <Directory "[PATH_TO_REPOSITORY]/lib">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    </Directory>
+  
+    SSLEngine on
+    SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP:+eNULL
+    SSLCertificateFile /etc/apache2/ssl/localhost.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/localhost.key
 </VirtualHost>
 ```
+The old location:
 ```
-<VirtualHost *:80>
-    ServerName local.gamedistribution.com
-    ServerAlias local.gamedistribution.com
-    DocumentRoot "[PATH_TO_REPOSITORY]/GDApi/bin-debug"
+<VirtualHost *:443>
+    ServerName vcheck.submityourgame.com
+    ServerAlias vcheck.submityourgame.com
+    DocumentRoot "[PATH_TO_REPOSITORY]/lib"
 
-        <Directory "[PATH_TO_REPOSITORY]/GDApi/bin-debug">
-            Options Indexes FollowSymLinks
-            AllowOverride All
-            Order allow,deny
-            Allow from all
-        </Directory>
+    <Directory "[PATH_TO_REPOSITORY]/lib">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    </Directory>
+    
+    SSLEngine on
+    SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP:+eNULL
+    SSLCertificateFile /etc/apache2/ssl/localhost.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/localhost.key  
 </VirtualHost>
 ```
 Make sure you add these domains to your environments `hosts` file.
@@ -69,8 +81,8 @@ Make sure you add these domains to your environments `hosts` file.
 ### Debugging
 Enable debugging by running this command from within your browsers' developer tool.
 ```
-tunnl.openConsole();
+gdsdk.openConsole();
 ```
 
 ## Deployment
-Deployment of the SDK to production environments is done through TeamCity. The `grunt build` task will build the javascript you need and will place it within the js folder. The files are hosted within the `gd-flash-sdk` Google Cloud bucket.
+Deployment of the SDK to production environments is done through TeamCity. The `grunt build` task will build the javascript you need and. The files are hosted within the `gd-flash-sdk` Google Cloud bucket.

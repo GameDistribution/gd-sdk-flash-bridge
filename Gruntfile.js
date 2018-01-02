@@ -18,9 +18,9 @@ module.exports = function(grunt) {
         copy: {
             lib: {
                 expand: true,
-                flatten: true,
-                cwd: './',
-                src: ['src/crossdomain.xml'],
+                flatten: false,
+                cwd: './src/',
+                src: ['crossdomain.xml', 'api/index.html', 'gdapi.swf'],
                 dest: './lib/',
             },
         },

@@ -46,18 +46,28 @@
 
         const position = getAbsoluteBoundingRect(_game);
         _self._container = document.createElement('div');
-        _self._container.id = 'adContainer_' + _gameId;
+        _self._container.id = 'gdsdk_bridge__ad-container';
         _self._container.style.position = 'absolute';
         _self._container.style['width'] = width() + 'px';
         _self._container.style['height'] = height() + 'px';
         _self._container.style['top'] = position.top + 'px';
         _self._container.style['left'] = position.left + 'px';
 
-        // Hide the advertisement container initially. We do not use
+        _self._splashContainer = document.createElement('div');
+        _self._splashContainer.id = 'gdsdk_bridge__splash-ontainer';
+        _self._splashContainer.style.position = 'absolute';
+        _self._splashContainer.style['width'] = width() + 'px';
+        _self._splashContainer.style['height'] = height() + 'px';
+        _self._splashContainer.style['top'] = position.top + 'px';
+        _self._splashContainer.style['left'] = position.left + 'px';
+        _self._splashContainer.style['display'] = 'none';
+
+        // Hide the advertisement and splash container initially. We do not use
         // display: none as this causes issues with requesting offset dimensions.
         _self._container.style['transform'] = 'translate(-9999px)';
 
         document.body.appendChild(_self._container);
+        document.body.appendChild(_self._splashContainer);
 
         window.addEventListener('resize', function() {
             const position = getAbsoluteBoundingRect(_game);
@@ -65,20 +75,23 @@
             _self._container.style['height'] = height() + 'px';
             _self._container.style['top'] = position.top + 'px';
             _self._container.style['left'] = position.left + 'px';
+
+            _self._splashContainer.style['width'] = width() + 'px';
+            _self._splashContainer.style['height'] = height() + 'px';
+            _self._splashContainer.style['top'] = position.top + 'px';
+            _self._splashContainer.style['left'] = position.left + 'px';
         });
 
         // HTML5 SDK settings
         window.GD_OPTIONS = {
             gameId: _gameId.replace(/-/g, ''),
             userId: _userId,
+            flashSettings: {
+                adContainerId: '' + _self._container.id,
+                splashContainerId: '' + _self._splashContainer.id,
+            },
             advertisementSettings: {
                 autoplay: true,
-                container: '' + _self._container.id,
-                // We have to set a 2 minute delay on the pre-roll.
-                // Reason for this is that otherwise pre-rolls are running
-                // right after the pre-roll of the publisher website it self.
-                // This condition "can" be removed when VGD-144 is released and
-                // all banner settings are properly set for these games.
                 delay: 120000,
             },
             onEvent: function onEvent(event) {
@@ -118,7 +131,7 @@
         }
 
         function requestAds() {
-            gdApi.showBanner();
+            gdsdk.showBanner();
         }
 
         function jsOnAdsStarted() {
