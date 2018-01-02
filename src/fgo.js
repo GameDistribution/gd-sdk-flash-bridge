@@ -46,7 +46,7 @@
 
         const position = getAbsoluteBoundingRect(_game);
         _self._container = document.createElement('div');
-        _self._container.id = 'adContainer_' + _gameId;
+        _self._container.id = 'gdsdk_bridge__ad-container';
         _self._container.style.position = 'absolute';
         _self._container.style['width'] = width() + 'px';
         _self._container.style['height'] = height() + 'px';
@@ -54,14 +54,15 @@
         _self._container.style['left'] = position.left + 'px';
 
         _self._splashContainer = document.createElement('div');
-        _self._splashContainer.id = 'splashContainer_' + _gameId;
+        _self._splashContainer.id = 'gdsdk_bridge__splash-ontainer';
         _self._splashContainer.style.position = 'absolute';
         _self._splashContainer.style['width'] = width() + 'px';
         _self._splashContainer.style['height'] = height() + 'px';
         _self._splashContainer.style['top'] = position.top + 'px';
         _self._splashContainer.style['left'] = position.left + 'px';
+        _self._splashContainer.style['display'] = 'none';
 
-        // Hide the advertisement container initially. We do not use
+        // Hide the advertisement and splash container initially. We do not use
         // display: none as this causes issues with requesting offset dimensions.
         _self._container.style['transform'] = 'translate(-9999px)';
 
@@ -85,10 +86,9 @@
         window.GD_OPTIONS = {
             gameId: _gameId.replace(/-/g, ''),
             userId: _userId,
-            splashContainer: '' +  + _self._splashContainer.id,
             flashSettings: {
-                adContainer: '' + _self._container.id,
-                splashContainer: '' +  + _self._splashContainer.id,
+                adContainerId: '' + _self._container.id,
+                splashContainerId: '' + _self._splashContainer.id,
             },
             advertisementSettings: {
                 autoplay: true,
