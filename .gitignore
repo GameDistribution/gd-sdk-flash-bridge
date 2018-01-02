@@ -11,7 +11,6 @@ lib/
 .idea/
 
 # Executables
-*.swf
 *.air
 *.ipa
 *.apk
