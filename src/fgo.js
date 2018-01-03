@@ -131,26 +131,33 @@
         }
 
         function requestAds() {
-            gdsdk.showBanner();
+            if (gdsdk.showBanner === 'function') {
+                gdsdk.showBanner();
+            }
         }
 
         function jsOnAdsStarted() {
-            // _self._container.style['display'] = 'block';
-            _game.jsOnAdsStarted();
+            if (_game.jsOnAdsStarted === 'function') {
+                _game.jsOnAdsStarted();
+            }
         }
 
         function jsOnAdsClosed() {
-            // _self._container.style['display'] = 'none';
-            _game.jsOnAdsClosed();
+            if (_game.jsOnAdsClosed === 'function') {
+                _game.jsOnAdsClosed();
+            }
         }
 
         function jsOnAdsLoaded() {
-            _game.jsOnAdsLoaded();
+            if (_game.jsOnAdsLoaded === 'function') {
+                _game.jsOnAdsLoaded();
+            }
         }
 
         function jsOnAdsError() {
-            // _self._container.style['display'] = 'none';
-            _game.jsOnAdsError();
+            if (_game.jsOnAdsError === 'function') {
+                _game.jsOnAdsError();
+            }
         }
 
         return {
