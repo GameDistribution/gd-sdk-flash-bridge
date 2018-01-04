@@ -54,7 +54,7 @@
         _self._container.style['left'] = position.left + 'px';
 
         _self._splashContainer = document.createElement('div');
-        _self._splashContainer.id = 'gdsdk_bridge__splash-ontainer';
+        _self._splashContainer.id = 'gdsdk_bridge__splash-container';
         _self._splashContainer.style.position = 'absolute';
         _self._splashContainer.style['width'] = width() + 'px';
         _self._splashContainer.style['height'] = height() + 'px';
