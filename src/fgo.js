@@ -92,7 +92,6 @@
             },
             advertisementSettings: {
                 autoplay: true,
-                delay: 120000,
             },
             onEvent: function onEvent(event) {
                 switch (event.name) {
