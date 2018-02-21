@@ -8,6 +8,7 @@ function atob(str) {
 module.exports = function(grunt) {
 
     const startTS = Date.now();
+    const xml = {};
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -20,7 +21,12 @@ module.exports = function(grunt) {
                 expand: true,
                 flatten: false,
                 cwd: './src/',
-                src: ['crossdomain.xml', 'api/index.html', 'index.html', 'gdapi.swf', 'gdapi_legacy.swf'],
+                src: [
+                    'crossdomain.xml',
+                    'api/index.html',
+                    'index.html',
+                    'gdapi.swf',
+                    'gdapi_legacy.swf'],
                 dest: './lib/',
             },
         },
@@ -124,6 +130,7 @@ module.exports = function(grunt) {
                 files: ['Gruntfile.js'],
             },
         },
+        xml: xml,
     });
 
     // General tasks.
@@ -154,10 +161,25 @@ module.exports = function(grunt) {
             }
             console.log('Duration: ' + hh + ':' + mm + ':' + ss);
         });
-    grunt.registerTask('sourcemaps', 'Build with sourcemaps', function() {
-        grunt.config.set('uglify.options.sourceMap', true);
-        grunt.config.set('uglify.options.sourceMapIncludeSources', true);
-    });
+    grunt.registerTask('xml',
+        'Build xml files for each legacy Flash game.',
+        function() {
+            const mapping = grunt.file.readJSON('./xml_legacy.json');
+            grunt.log.write(mapping[0]['id']).ok();
+            for (let key in mapping) {
+                if (mapping.hasOwnProperty(key)) {
+                    grunt.log.write(mapping[key].id).ok();
+                    grunt.file.write(`lib/${mapping[key].id}.xml`,
+                        '<?xml version="1.0" ?><metadata></metadata>');
+                }
+            }
+        });
+    grunt.registerTask('sourcemaps',
+        'Build with sourcemaps',
+        function() {
+            grunt.config.set('uglify.options.sourceMap', true);
+            grunt.config.set('uglify.options.sourceMapIncludeSources', true);
+        });
     grunt.registerTask('default',
         'Start BrowserSync and watch for any changes so we can do live updates while developing.',
         function() {
@@ -168,7 +190,7 @@ module.exports = function(grunt) {
                 'uglify',
                 'usebanner',
                 'duration',
-                'watch'
+                'watch',
             ];
             grunt.task.run(tasksArray);
         });
@@ -179,7 +201,8 @@ module.exports = function(grunt) {
             'uglify',
             'usebanner',
             'copy',
-            'duration'
+            'xml',
+            'duration',
         ];
         grunt.task.run(tasksArray);
     });
